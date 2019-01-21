@@ -26,7 +26,7 @@ class AuditHistoryMixin(UpdateableModelMixin):
         assert isinstance(history_field, AuditHistoryField), 'Mixin has to be attached to a model class with a "history" AuditHistoryField'
 
     def _create_history_entry(self, modification_time, current_user, event, **payload):
-        entry = {'timestamp': modification_time,
+        entry = {'timestamp': modification_time.strftime('%Y-%m-%dT%H:%M:%S.%f+00:00'),
                  'event': event,
                  'actor': None if not current_user or current_user.is_anonymous() else {'id': current_user.id, 'email': current_user.email, 'name': current_user.get_full_name(), 'is_staff': current_user.is_staff}}
         entry.update(payload)
