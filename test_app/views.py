@@ -1,13 +1,6 @@
-from django.forms import ModelForm
 from django.shortcuts import render, redirect
-
 from .models import BlogPost
-
-
-class BlogPostForm(ModelForm):
-    class Meta:
-        model = BlogPost
-        fields = ['title', 'position', 'created_on']
+from .forms import BlogPostForm
 
 
 def edit(request, id):

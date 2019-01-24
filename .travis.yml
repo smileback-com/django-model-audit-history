@@ -1,0 +1,19 @@
+language: python
+python:
+  - "2.7"
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database audithistory;" -U postgres
+  - psql -c "create user dev;" -U postgres
+  - psql -c "alter user dev with password 'dev';" -U postgres
+  - psql -c "grant all privileges on database audithistory to dev;" -U postgres
+  - psql -c "alter user dev createdb;" -U postgres
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python manage.py test
