@@ -1,5 +1,6 @@
 from django.test import Client
 from django.db import connection
+
 from test_app.models import BlogPost
 from .main import BaseTestSetUp
 

@@ -1,4 +1,5 @@
 from random import randint
+
 from test_app.models import BlogPost
 from .main import BaseTestSetUp
 
