@@ -1,0 +1,14 @@
+<table>
+    {% for history in data %}
+        <tr>
+            <td>{{ history.timestamp|date:'Y-m-d'}} {{ history.timestamp|time:'H:i:s' }} UTC</td>
+            <td>{{ history.actor }}</td>
+            <td>{{ history.event }}</td>
+            <td>
+                {% for unit in history.payload %}
+                    {{ unit }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
