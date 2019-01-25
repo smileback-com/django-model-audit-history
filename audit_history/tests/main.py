@@ -13,9 +13,9 @@ class BaseTestSetUp(TestCase):
         self.user_password = 'test_password'
         self.history_event = 'test_event'
         self.payload = {1: 'test_history_1', 2: 'test_history_2'}
-        self.payload_with_quotes = {1: "test'tets"}
-        self.admin_change_url = '/admin/test_app/blogpost/{}/change'
-        self.admin_add_url = '/admin/test_app/blogpost/add/'
+        self.payload_with_quotes = {'title': "test'test"}
+        self.admin_change_url = 'admin:test_app_blogpost_change'
+        self.admin_add_url = 'admin:test_app_blogpost_add'
         self.blog_title = 'test'
         self.blog_position = 1
         self.blog_created = timezone.now()
