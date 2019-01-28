@@ -1,7 +1,10 @@
+import json
+
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 from django.utils import timezone
 
+from .utils import json_formatter
 from .fields import AuditHistoryField
 from .settings import TIMESTAMP_FORMAT
 
@@ -38,6 +41,7 @@ class AuditHistoryMixin(UpdateableModelMixin):
                      'name': current_user.get_full_name(),
                      'is_staff': current_user.is_staff
                  }}
+        payload = json.loads(json.dumps(payload, default=json_formatter))
         entry.update(payload)
         return entry
 

@@ -1,10 +1,9 @@
-from jsonfield import JSONField
-from jsonfield.forms import JSONFormField
+from django.contrib.postgres import fields
 
 from audit_history.widgets import AuditHistoryWidget
 
 
-class AuditHistoryField(JSONField):
+class AuditHistoryField(fields.JSONField):
     def __init__(self, *args, **kwargs):
         # override some essential fields
         # if 'null' in kwargs: raise ValueError('Overriding null is not allowed on AuditHistoryFields')
@@ -15,7 +14,6 @@ class AuditHistoryField(JSONField):
 
     def formfield(self, **kwargs):
         defaults = {
-            'form_class': JSONFormField,
             'widget': AuditHistoryWidget,
         }
         defaults.update(**kwargs)

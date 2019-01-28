@@ -124,6 +124,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-JSONFIELD_ENCODER_CLASS = 'django.core.serializers.json.DjangoJSONEncoder'

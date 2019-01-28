@@ -32,8 +32,8 @@ class AuditHistoryAdminTest(BaseTestSetUp):
             follow=True
         )
         self.assertEqual(200, response.status_code)
-        self.assertIn(self.payload[1], str(response))
-        self.assertIn(self.payload[2], str(response))
+        self.assertIn(self.payload['a'], str(response))
+        self.assertIn(self.payload['b'], str(response))
         self.assertNotIn(self.payload_with_quotes['title'], str(response))
 
     def test_data_with_quotes(self):

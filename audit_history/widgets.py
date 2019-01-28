@@ -1,3 +1,4 @@
+import json
 import datetime
 
 from django.forms.widgets import Widget
@@ -14,8 +15,8 @@ class AuditHistoryWidget(Widget):
     template_name = 'widget.html'
 
     def render(self, name, value, attrs=None, renderer=None):
-        if isinstance(value, list):
-            history = reversed(value)
+        if isinstance(value, str):
+            history = reversed(json.loads(value))
             rows = [{
                         'timestamp': datetime.datetime.strptime(
                             entry.get('timestamp', '1900-01-01T00:00:00.000+00:00'),
