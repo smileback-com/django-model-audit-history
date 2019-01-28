@@ -10,8 +10,9 @@ The basic principles are as follows:
 
 1. To enable this for a model, you make two changes:
 
-   a) add an `AuditHistoryField` named `history` to the model
-   b) add the `AuditHistoryMixin` to the model class
+   * add an `AuditHistoryField` named `history` to the model
+   * add the `AuditHistoryMixin` to the model class
+   * add your model to admin site `admin.site.register(model, AuditHistoryAdmin)`
 
 2. Then, instead of calling regular `save()` on the model after changing it, call `save_with_audit_record()` instead (passing in some meta data you want saved alongside, e.g. the `event` that caused the change, the `user` triggering it and some `payload` usually the set of modified fields.
 
@@ -35,3 +36,8 @@ Changes made to the model in the admin right now unfortunately do not contribute
 8. Create new model on http://localhost:8000/admin/test_app/blogpost/
 9. Edit model via http://localhost:8000/edit/1/
 10. Reload admin page and inspect history record
+
+## Run tests in local environment:
+
+* Run `manage.py test` (Ensure that user dev has rights to db creation `alter user dev createdb;`)
+

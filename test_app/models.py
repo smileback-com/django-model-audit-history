@@ -8,7 +8,7 @@ from audit_history.mixins import AuditHistoryMixin
 class BlogPost(models.Model, AuditHistoryMixin):
     title = models.CharField(max_length=255, blank=False)
     position = models.IntegerField(default=1, blank=False)
-    created_on = models.DateTimeField(default=now, blank=False)
+    created_on = models.DateTimeField(default=now, blank=True)
     history = AuditHistoryField()
 
     def __unicode__(self):
