@@ -30,12 +30,15 @@ class AuditHistoryAdminTest(BaseTestSetUp):
         self.blog_post.save_with_audit_record(self.user, self.history_event, payload=self.payload)
         response = self.c.post(
             reverse(self.admin_change_url, args=[self.blog_post.id]),
+            self.payload_for_update,
             follow=True
         )
         self.assertEqual(200, response.status_code)
-        self.assertIn(self.payload['a'], str(response))
-        self.assertIn(self.payload['b'], str(response))
-        self.assertNotIn(self.payload_with_quotes['title'], str(response))
+        qs = BlogPost.objects.get(pk=self.blog_post.id)
+        self.assertEqual(self.payload_for_update['title'], qs.title)
+        self.assertEqual(self.payload_for_update['position'], qs.position)
+        self.assertEqual(self.payload['a'], qs.history[0]['payload']['a'])
+        self.assertEqual(self.payload['b'], qs.history[0]['payload']['b'])
 
     def test_data_with_quotes(self):
         self.blog_post.save()

@@ -1,3 +1,4 @@
+import six
 import json
 
 from django.core.exceptions import FieldDoesNotExist
@@ -11,9 +12,9 @@ from .settings import TIMESTAMP_FORMAT
 
 class UpdateableModelMixin(object):
     def update(self, already_set=None, **kwargs):
-        for k, v in kwargs.iteritems():
+        for k, v in six.iteritems(kwargs):
             setattr(self, k, v)
-        updated_fields = kwargs.keys()
+        updated_fields = list(kwargs.keys())
         if already_set:
             updated_fields.extend(already_set)
         self.save(update_fields=updated_fields)
@@ -57,7 +58,7 @@ class AuditHistoryMixin(UpdateableModelMixin):
 
     def update_with_audit_record(self, current_user, event, track_last_modification=False, **fields):
         self._manipulate_model(current_user, event, track_last_modification,
-                               **{k: unicode(v) for k, v in fields.items()})
+                               **{k: six.text_type(v) for k, v in fields.items()})
         self.update(already_set=['history'] + (['last_modified'] if track_last_modification else []), **fields)
 
     def append_audit_record(self, current_user, event, **payload):
