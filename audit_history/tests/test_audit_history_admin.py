@@ -2,8 +2,9 @@ from django.test import Client
 from django.db import connection
 from django.urls import reverse
 
-from test_app.models import BlogPost
 from .main import BaseTestSetUp
+from test_app.models import BlogPost
+from audit_history.settings import ADMIN_EVENT
 
 
 class AuditHistoryAdminTest(BaseTestSetUp):
@@ -29,12 +30,15 @@ class AuditHistoryAdminTest(BaseTestSetUp):
         self.blog_post.save_with_audit_record(self.user, self.history_event, payload=self.payload)
         response = self.c.post(
             reverse(self.admin_change_url, args=[self.blog_post.id]),
+            self.payload_for_update,
             follow=True
         )
         self.assertEqual(200, response.status_code)
-        self.assertIn(self.payload[1], str(response))
-        self.assertIn(self.payload[2], str(response))
-        self.assertNotIn(self.payload_with_quotes['title'], str(response))
+        qs = BlogPost.objects.get(pk=self.blog_post.id)
+        self.assertEqual(self.payload_for_update['title'], qs.title)
+        self.assertEqual(self.payload_for_update['position'], qs.position)
+        self.assertEqual(self.payload['a'], qs.history[0]['payload']['a'])
+        self.assertEqual(self.payload['b'], qs.history[0]['payload']['b'])
 
     def test_data_with_quotes(self):
         self.blog_post.save()
@@ -75,3 +79,18 @@ class AuditHistoryAdminTest(BaseTestSetUp):
         self.assertEqual(self.payload_for_update['title'], qs.title)
         self.assertEqual(self.payload_for_update['position'], qs.position)
         self.assertEqual(self.payload_with_quotes['title'], qs.history[0]['payload']['title'])
+
+    def test_save_history_after_change_via_admin(self):
+        self.blog_post.save()
+        response = self.c.post(
+            reverse(self.admin_change_url, args=[self.blog_post.id]),
+            self.payload_for_update,
+            follow=True
+        )
+        self.assertEqual(200, response.status_code)
+        qs = BlogPost.objects.get(pk=self.blog_post.id)
+        self.assertEqual(self.user_name, qs.history[0]['actor']['name'])
+        self.assertEqual(self.user_email, qs.history[0]['actor']['email'])
+        self.assertEqual(self.payload_for_update['title'], qs.history[0]['payload']['title'])
+        self.assertEqual(self.payload_for_update['position'], qs.history[0]['payload']['position'])
+        self.assertEqual(ADMIN_EVENT, qs.history[0]['event'])

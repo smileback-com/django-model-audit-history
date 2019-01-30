@@ -12,7 +12,7 @@ class BaseTestSetUp(TestCase):
         self.user_email = 'test@test.domain'
         self.user_password = 'test_password'
         self.history_event = 'test_event'
-        self.payload = {1: 'test_history_1', 2: 'test_history_2'}
+        self.payload = {'a': 'test_history_1', 'b': 'test_history_2'}
         self.payload_with_quotes = {'title': "test'test"}
         self.admin_change_url = 'admin:test_app_blogpost_change'
         self.admin_add_url = 'admin:test_app_blogpost_add'

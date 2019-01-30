@@ -1,4 +1,4 @@
 Django==1.11.18
-django-jsonfield==1.0.1
-psycopg2==2.7.6.1
+psycopg2-binary==2.7.7
 pytz==2018.9
+six==1.12.0

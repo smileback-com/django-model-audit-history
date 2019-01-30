@@ -1,6 +1,8 @@
 from .main import BaseTestSetUp
 from test_app.forms import BlogPostForm
 
+from audit_history.utils import json_formatter
+
 
 class AuditHistoryFormTest(BaseTestSetUp):
     def setUp(self):
@@ -23,4 +25,4 @@ class AuditHistoryFormTest(BaseTestSetUp):
         self.assertEqual(None, self.blog_post.history[0]['actor'])
         self.assertEqual(self.blog_title, self.blog_post.history[0]['payload']['title'])
         self.assertEqual(self.blog_position, self.blog_post.history[0]['payload']['position'])
-        self.assertEqual(self.blog_created, self.blog_post.history[0]['payload']['created_on'])
+        self.assertEqual(json_formatter(self.blog_created), self.blog_post.history[0]['payload']['created_on'])
