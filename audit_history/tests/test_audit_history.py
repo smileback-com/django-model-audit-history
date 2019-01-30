@@ -33,10 +33,9 @@ class AuditHistoryTest(BaseTestSetUp):
         self.assertEqual(self.payload['b'], self.blog_post.history[0]['payload']['b'])
 
     def test_n_usages_of_save_with_audit(self):
-        count = randint(1, 100)
-        for _ in range(count):
+        for _ in range(100):
             self.blog_post.save_with_audit_record(None, self.history_event, payload=self.payload)
-        self.assertEqual(count, len(self.blog_post.history))
+        self.assertEqual(100, len(self.blog_post.history))
 
     def test_append_audit_record_with_staff_user(self):
         self.blog_post.save()
@@ -55,11 +54,10 @@ class AuditHistoryTest(BaseTestSetUp):
         self.assertEqual(self.payload['b'], self.blog_post.history[0]['payload']['b'])
 
     def test_n_usages_of_append_audit_record(self):
-        count = randint(1, 100)
         self.blog_post.save()
-        for _ in range(count):
+        for _ in range(100):
             self.blog_post.append_audit_record(None, self.history_event, payload=self.payload)
-        self.assertEqual(count, len(self.blog_post.history))
+        self.assertEqual(100, len(self.blog_post.history))
 
     def test_update_with_audit_record_with_staff_user(self):
         self.blog_post.save()
@@ -78,8 +76,7 @@ class AuditHistoryTest(BaseTestSetUp):
         self.assertEqual(self.payload_for_update['position'], int(self.blog_post.history[0]['position']))
 
     def test_n_usages_of_update_with_audit_record(self):
-        count = randint(1, 100)
         self.blog_post.save()
-        for _ in range(count):
+        for _ in range(100):
             self.blog_post.update_with_audit_record(None, self.history_event, **self.payload_for_update)
-        self.assertEqual(count, len(self.blog_post.history))
+        self.assertEqual(100, len(self.blog_post.history))
