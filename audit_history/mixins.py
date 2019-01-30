@@ -53,14 +53,32 @@ class AuditHistoryMixin(UpdateableModelMixin):
         self.history.append(self._create_history_entry(modification_time, current_user, event, **payload))
 
     def save_with_audit_record(self, current_user, event, track_last_modification=False, **payload):
+        """
+        Saves instance with audit record
+        obj.history = [{'timestamp': '%Y-%m-%dT%H:%M:%S.%f+00:00', 'event': 'str', 'actor':
+         {'id': 1, 'email': 'example@domain.com', 'name': 'str', 'is_staff': True},
+         'payload': {'str': 'str', ...}]
+        """
         self._manipulate_model(current_user, event, track_last_modification, **payload)
         self.save()
 
     def update_with_audit_record(self, current_user, event, track_last_modification=False, **fields):
+        """
+        Updates instance with audit record
+        obj.history = [{'timestamp': '%Y-%m-%dT%H:%M:%S.%f+00:00', 'event': 'str',
+         'actor': {'id': 1, 'email': 'example@domain.com', 'name': 'str', 'is_staff': True},
+         'field': 'str', ...}]
+        """
         self._manipulate_model(current_user, event, track_last_modification,
                                **{k: six.text_type(v) for k, v in fields.items()})
         self.update(already_set=['history'] + (['last_modified'] if track_last_modification else []), **fields)
 
     def append_audit_record(self, current_user, event, **payload):
+        """
+        Adds audit record to instance
+        obj.history = [{'timestamp': '%Y-%m-%dT%H:%M:%S.%f+00:00', 'event': 'str',
+         'actor': {'id': 1, 'email': 'example@domain.com', 'name': 'str', 'is_staff': True},
+         'payload': {'str': 'str', ...}}]
+        """
         self._manipulate_model(current_user, event, track_last_modification=False, **payload)
         self.save(update_fields=['history'])
