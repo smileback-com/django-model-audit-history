@@ -12,6 +12,9 @@ from .settings import (
 
 
 class AuditHistoryWidget(Widget):
+    """
+    Custom widget for AuditHistoryField
+    """
     template_name = 'widget.html'
 
     def render(self, name, value, attrs=None, renderer=None):

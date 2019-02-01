@@ -4,6 +4,9 @@ from audit_history.widgets import AuditHistoryWidget
 
 
 class AuditHistoryField(fields.JSONField):
+    """
+    Custom field for saving audit history
+    """
     def __init__(self, *args, **kwargs):
         # override some essential fields
         # if 'null' in kwargs: raise ValueError('Overriding null is not allowed on AuditHistoryFields')
