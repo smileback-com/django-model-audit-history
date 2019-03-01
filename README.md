@@ -40,4 +40,3 @@ Changes made to the model in the admin right now unfortunately do not contribute
 ## Run tests in local environment:
 
 * Run `manage.py test` (Ensure that user dev has rights to db creation `alter user dev createdb;`)
-
