@@ -12,10 +12,17 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 version = '0.1.{build_time}'.format(build_time=int(time.time()))
 
+requires = [
+    'Django<2.0',
+    'six',
+]
+
 setup(
     name='django-model-audit-history',
     version=version,
     packages=['audit_history'],
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    install_requires=requires,
     include_package_data=True,
     license='MIT License',
     copyright='Copyright 2019 SmileBack, LLC',
