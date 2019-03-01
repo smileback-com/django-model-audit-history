@@ -30,6 +30,6 @@ deploy:
   password:
     secure: dkucF/yZSvO7LsDWPzHMODyKRqOLlVunsxmV05/sW/eHVFY4OvH6MycHFI/C2yK271Tb1FZZheChyxUj9xo/Q+ckKCO76P/60HFiOpwn5xjVlHT5N1PXM8jZq/ITkRRMz0b4k559MRby1jbWCHinhLw+AQ66m7KLMx5GCtCfALXvKBmRAAgZR2Th2bE4aXg617Auo5w03BF0aS5u4CuFoBRbNCEyLdUNKW5C8F8gcAdgD6WZZgWSldLNB1ZOFKW6mlIvwufsQ54/I9ch5KuX6JriDNO+a/NR4qEfRdETWyDiBUDWPabpNbcoNo5jFskRFzlej5SCwtp6wR3m8ktdTmhRvsmJHedXmdQRWu3EgOHZ5hdkOSGVlj40GCW5u+OZrsy5dQAQ/Fj2CDJG4CBEvykWRXJ/Hd/7u2ZoXd+7osN0QsM+m280sfvJWdzjFphbEDNjAaBccZvFqmmkYjkvyMZBvaVUWRtOneo7Sa+CEgN8KgjomuUI5d3AlH8MgqArOZAbQ3jrdknjg8/DEwFR/chh21QZO+/J6Be4AVPOCGqjoCaWJUSjFCBVv0YYjBj1qe/yxxWCy74Yca0rI/q2AM+sW03IRpKUp8KVBlHPafI0ZwTjKbq/QoSB8IuV7zDvUkRVoJW65OqC0Q6DxYf56Nz6tupIUfk4sPBlkMoVE0c=
   server: https://test.pypi.org/legacy/
-  skip_existing: true
+  #skip_existing: true
   on:
     branch: develop
