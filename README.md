@@ -4,6 +4,10 @@ Provides an `AuditHistory` model field to store a chronological record of change
 
 Supports Django 1.11 (and possibly Django 2.x in the future) and PostgreSQL database backends.
 
+## CI
+
+[![Build Status](https://travis-ci.org/nexto/django-model-audit-history.svg?branch=master)](https://travis-ci.org/nexto/django-model-audit-history)
+
 ## Usage
 
 The basic principles are as follows:
