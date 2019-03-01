@@ -1,4 +1,6 @@
 import os
+import time
+
 from setuptools import setup
 
 
@@ -8,9 +10,11 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as f:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+version = '0.1.{build_time}'.format(build_time=int(time.time()))
+
 setup(
     name='django-model-audit-history',
-    version='0.1',
+    version=version,
     packages=['audit_history'],
     include_package_data=True,
     license='MIT License',
