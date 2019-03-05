@@ -17,7 +17,9 @@ def json_formatter(o):
         if o.tzinfo:
             return o.strftime('%H:%M:%S%z')
         return o.strftime("%H:%M:%S")
+    if isinstance(o, datetime.tzinfo):
+        return o.zone
     if isinstance(o, set):
         return list(o)
 
-    return o
+    raise TypeError('Unserializable object {} of type {}'.format(o, type(o)))
