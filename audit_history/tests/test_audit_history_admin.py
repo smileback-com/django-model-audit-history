@@ -79,6 +79,7 @@ class AuditHistoryAdminTest(BaseTestSetUp):
         self.assertEqual(self.payload_for_update['title'], qs.title)
         self.assertEqual(self.payload_for_update['position'], qs.position)
         self.assertEqual(self.payload_with_quotes['title'], qs.history[0]['payload']['title'])
+        self.assertEqual(self.payload_for_update['title'], qs.history[1]['changes']['title'])
 
     def test_save_history_after_change_via_admin(self):
         self.blog_post.save()
@@ -91,6 +92,6 @@ class AuditHistoryAdminTest(BaseTestSetUp):
         qs = BlogPost.objects.get(pk=self.blog_post.id)
         self.assertEqual(self.user_name, qs.history[0]['actor']['name'])
         self.assertEqual(self.user_email, qs.history[0]['actor']['email'])
-        self.assertEqual(self.payload_for_update['title'], qs.history[0]['payload']['title'])
-        self.assertEqual(self.payload_for_update['position'], qs.history[0]['payload']['position'])
+        self.assertEqual(self.payload_for_update['title'], qs.history[0]['changes']['title'])
+        self.assertEqual(self.payload_for_update['position'], qs.history[0]['changes']['position'])
         self.assertEqual(ADMIN_EVENT, qs.history[0]['event'])

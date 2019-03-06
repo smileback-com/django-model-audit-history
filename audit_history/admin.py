@@ -24,6 +24,8 @@ class AuditHistoryAdmin(admin.ModelAdmin):
         """
         if obj.id and isinstance(obj, AuditHistoryMixin) \
                 and form.changed_data:
-            obj.save_with_audit_record(request.user, ADMIN_EVENT, payload=form.cleaned_data)
+            obj.save_with_audit_record(request.user, ADMIN_EVENT, track_last_modification=True, changes=dict(
+                (field, form.cleaned_data.get(field)) for field in form.changed_data
+            ))
         else:
             return super(AuditHistoryAdmin, self).save_model(request, obj, form, change)
