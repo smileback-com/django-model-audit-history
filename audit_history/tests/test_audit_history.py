@@ -1,7 +1,8 @@
-from random import randint
+import datetime
 
-from test_app.models import BlogPost
 from .main import BaseTestSetUp
+from test_app.models import BlogPost
+from audit_history.settings import TIMESTAMP_FORMAT
 
 
 class AuditHistoryTest(BaseTestSetUp):
@@ -13,6 +14,24 @@ class AuditHistoryTest(BaseTestSetUp):
     def test_empty_history_after_save(self):
         self.blog_post.save()
         self.assertEqual([], self.blog_post.history)
+
+    def test_default_timestamp_in_audit_history(self):
+        self.blog_post.save_with_audit_record(None, self.history_event)
+        timestamp = self.blog_post.history[0].get('timestamp')
+        try:
+            dt = datetime.datetime.strptime(timestamp, TIMESTAMP_FORMAT)
+        except ValueError:
+            dt = None
+        self.assertTrue(dt)
+
+    def test_not_used_timestamp_in_audit_history(self):
+        self.blog_post.save_with_audit_record(None, self.history_event)
+        timestamp = self.blog_post.history[0].get('timestamp')
+        try:
+            dt = datetime.datetime.strptime(timestamp, self.not_used_timestamp_format)
+        except ValueError:
+            dt = None
+        self.assertFalse(dt)
 
     def test_history_after_save_with_audit(self):
         self.blog_post.save_with_audit_record(None, self.history_event, payload=self.payload)
