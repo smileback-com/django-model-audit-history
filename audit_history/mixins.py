@@ -7,7 +7,10 @@ from django.utils import timezone
 
 from .utils import json_formatter
 from .fields import AuditHistoryField
-from .settings import TIMESTAMP_FORMAT
+from .settings import (
+    TIMESTAMP_FORMAT,
+    ADMIN_EVENT
+)
 
 
 class UpdateableModelMixin(object):
@@ -82,3 +85,30 @@ class AuditHistoryMixin(UpdateableModelMixin):
         """
         self._manipulate_model(current_user, event, track_last_modification=False, **payload)
         self.save(update_fields=['history'])
+
+
+class AuditHistoryAdminMixin(object):
+    """
+    Custom Admin for models with AuditHistoryField
+    """
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Sets history field to readonly while instance is updating via admin
+        return: self.readonly_fields
+        """
+        if request.method == 'POST':
+            return self.readonly_fields + ('history',)
+        return self.readonly_fields
+
+    def save_model(self, request, obj, form, change):
+        """
+        Adds audit history when instance has updated via admin
+        """
+        if obj.id and isinstance(obj, AuditHistoryMixin) \
+                and form.changed_data:
+            obj.save_with_audit_record(request.user, ADMIN_EVENT, track_last_modification=True, changes=dict(
+                (field, form.cleaned_data.get(field)) for field in form.changed_data
+            ))
+        else:
+            return super(AuditHistoryAdminMixin, self).save_model(request, obj, form, change)
