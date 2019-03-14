@@ -87,6 +87,31 @@ class AuditHistoryMixin(UpdateableModelMixin):
         self.save(update_fields=['history'])
 
 
+class AuditHistoryParentInlineMixin(object):
+    """
+    Used for admin models which have inline models
+    """
+
+    def save_formset(self, request, form, formset, change):
+        """
+        Save inline models with audit history
+        """
+        for form in formset.forms:
+            if not form.instance.pk or not form.changed_data:
+                continue
+            form_ch_data = dict(
+                (field, form.cleaned_data.get(field)) for field in form.changed_data
+            )
+            obj = form.save(commit=False)
+            if isinstance(obj, AuditHistoryMixin):
+                obj.save_with_audit_record(
+                    request.user, ADMIN_EVENT,
+                    track_last_modification=True,
+                    changes=form_ch_data
+                )
+        super(AuditHistoryParentInlineMixin, self).save_formset(request, form, formset, change)
+
+
 class AuditHistoryAdminMixin(object):
     """
     Custom Admin for models with AuditHistoryField
