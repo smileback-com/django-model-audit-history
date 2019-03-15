@@ -24,10 +24,6 @@ The basic principles are as follows:
 
 That’s pretty much all there is to it.
 
-## Limitations
-
-Changes made to the model in the admin right now unfortunately do not contribute to the audit record.
-
 ## Testapp setup and first steps
 
 1. Install Postgres locally (e.g. 10.x)

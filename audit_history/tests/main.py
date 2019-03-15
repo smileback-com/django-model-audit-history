@@ -12,6 +12,7 @@ class BaseTestSetUp(TestCase):
         self.user_email = 'test@test.domain'
         self.user_password = 'test_password'
         self.history_event = 'test_event'
+        self.not_used_timestamp_format = '%Y-%m-%dT%H:%M:%S'
         self.payload = {'a': 'test_history_1', 'b': 'test_history_2'}
         self.payload_with_quotes = {'title': "test'test"}
         self.admin_change_url = 'admin:test_app_blogpost_change'
