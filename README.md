@@ -12,11 +12,16 @@ Supports Django 1.11 (and possibly Django 2.x in the future) and PostgreSQL data
 
 The basic principles are as follows:
 
-1. To enable this for a model, you make two changes:
+1. To enable this for a model, you have to make these changes:
 
    * add an `AuditHistoryField` named `history` to the model
    * add the `AuditHistoryMixin` to the model class
-   * add your model to admin site `admin.site.register(model, AuditHistoryAdmin)`
+   * create ModelAdmin:
+    ```
+    ModelAdmin(AuditHistoryAdminMixin, admin.ModelAdmin): 
+        pass
+    ```
+   * add your ModelAdmin to admin site `admin.site.register(model, ModelAdmin)`
 
 2. Then, instead of calling regular `save()` on the model after changing it, call `save_with_audit_record()` instead (passing in some meta data you want saved alongside, e.g. the `event` that caused the change, the `user` triggering it and some `payload` usually the set of modified fields.
 
