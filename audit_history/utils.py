@@ -1,22 +1,6 @@
 import datetime
 from decimal import Decimal
 
-from .settings import SUPPORTED_TIMESTAMP_FORMATS
-
-
-def parse_timestamp(timestamp):
-    dt = None
-    for ts in SUPPORTED_TIMESTAMP_FORMATS:
-        try:
-            dt = datetime.datetime.strptime(
-                    timestamp,
-                    ts
-                )
-            break
-        except ValueError:
-            continue
-    return dt
-
 
 def json_formatter(o):
     if hasattr(o, 'to_json'):

@@ -2,9 +2,9 @@ import json
 
 from django.forms.widgets import Widget
 from django.utils.safestring import mark_safe
+from django.utils.dateparse import parse_datetime
 from django.template.loader import render_to_string
 
-from .utils import parse_timestamp
 from .settings import DEFAULT_ACTOR
 
 
@@ -18,7 +18,7 @@ class AuditHistoryWidget(Widget):
         if isinstance(value, str):
             history = reversed(json.loads(value))
             rows = [{
-                    'timestamp': parse_timestamp(entry.get('timestamp', '1900-01-01T00:00:00.000+00:00')),
+                    'timestamp': parse_datetime(entry.get('timestamp', '1900-01-01T00:00:00.000+00:00')),
                     'actor': entry['actor'].get('email', '[n/a]') if entry.get('actor') else DEFAULT_ACTOR,
                     'event': entry.get('event', '[n/a]'),
                     'payload':['%s=%s' % (k, v) for k, v in sorted(entry.items())
