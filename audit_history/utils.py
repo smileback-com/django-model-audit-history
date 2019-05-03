@@ -1,4 +1,5 @@
 import datetime
+import ipaddress
 from decimal import Decimal
 
 
@@ -21,5 +22,8 @@ def json_formatter(o):
         return o.zone
     if isinstance(o, set):
         return list(o)
+    if isinstance(o, ipaddress.IPv4Network) \
+            or isinstance(o, ipaddress.IPv6Network):
+        return str(o)
 
     raise TypeError('Unserializable object {} of type {}'.format(o, type(o)))

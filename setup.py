@@ -14,6 +14,7 @@ version = '1.2.dev{build_time}'.format(build_time=int(time.time()))
 
 requires = [
     'Django<2.0',
+    'ipaddress',
     'six',
 ]
 
